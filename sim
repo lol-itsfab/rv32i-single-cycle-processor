@@ -1,0 +1,610 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x102b9da30 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x102b9dbb0 .scope package, "types_pkg" "types_pkg" 3 1;
+ .timescale 0 0;
+P_0x102b9dd30 .param/l "F7_NORMAL" 1 3 49, C4<0000000>;
+P_0x102b9dd70 .param/l "F7_SRA_SUB" 1 3 50, C4<0100000>;
+enum0x102ba2080 .enum4 (7)
+   "OPC_RTYPE" 7'b0110011,
+   "OPC_ITYPE" 7'b0010011,
+   "OPC_LOAD" 7'b0000011,
+   "OPC_STORE" 7'b0100011,
+   "OPC_BRANCH" 7'b1100011,
+   "OPC_JAL" 7'b1101111,
+   "OPC_JALR" 7'b1100111,
+   "OPC_LUI" 7'b0110111,
+   "OPC_AUIPC" 7'b0010111
+ ;
+enum0x102ba23e0 .enum4 (3)
+   "F3_ADD_SUB" 3'b000,
+   "F3_XOR_XORI" 3'b100,
+   "F3_OR_ORI" 3'b110,
+   "F3_AND_ANDI" 3'b111,
+   "F3_SLL_SLLI" 3'b001,
+   "F3_SRL_SRA" 3'b101,
+   "F3_SLT_SLTI" 3'b010,
+   "F3_SLTU_SLTIU" 3'b011
+ ;
+enum0x102ba2660 .enum4 (3)
+   "F3_LB" 3'b000,
+   "F3_LH" 3'b001,
+   "F3_LW" 3'b010,
+   "F3_LBU" 3'b100,
+   "F3_LHU" 3'b101
+ ;
+enum0x102ba2720 .enum4 (3)
+   "F3_SB" 3'b000,
+   "F3_SH" 3'b001,
+   "F3_SW" 3'b010
+ ;
+enum0xb18c74000 .enum4 (3)
+   "F3_BEQ" 3'b000,
+   "F3_BNE" 3'b001,
+   "F3_BLT" 3'b100,
+   "F3_BGE" 3'b101,
+   "F3_BLTU" 3'b110,
+   "F3_BGEU" 3'b111
+ ;
+enum0xb18c74080 .enum4 (4)
+   "ALU_ADD" 4'b0000,
+   "ALU_SUB" 4'b0001,
+   "ALU_XOR" 4'b0010,
+   "ALU_OR" 4'b0011,
+   "ALU_AND" 4'b0100,
+   "ALU_SLL" 4'b0101,
+   "ALU_SRL" 4'b0110,
+   "ALU_SRA" 4'b0111,
+   "ALU_SLT" 4'b1000,
+   "ALU_SLTU" 4'b1001,
+   "ALU_PASS_B" 4'b1010
+ ;
+enum0xb18c74100 .enum4 (2)
+   "ALUOP_RTYPE_ITYPE" 2'b00,
+   "ALUOP_LOAD_STORE" 2'b01,
+   "ALUOP_BRANCH" 2'b10
+ ;
+enum0xb18c74180 .enum4 (3)
+   "IMM_I" 3'b000,
+   "IMM_S" 3'b001,
+   "IMM_B" 3'b010,
+   "IMM_U" 3'b011,
+   "IMM_J" 3'b100
+ ;
+S_0x102b9b470 .scope module, "alu_tb" "alu_tb" 4 4;
+ .timescale -9 -12;
+v0xb190300a0_0 .var "a", 31 0;
+v0xb19030140_0 .var "b", 31 0;
+v0xb190301e0_0 .var/2s "fail_count", 31 0;
+v0xb19030280_0 .var "op", 3 0;
+v0xb19030320_0 .var/2s "pass_count", 31 0;
+v0xb190303c0_0 .net "result", 31 0, v0x102ba8370_0;  1 drivers
+v0xb19030460_0 .net "zero", 0 0, L_0xb19030500;  1 drivers
+S_0x102b9b5f0 .scope autotask, "check" "check" 4 24, 4 24 0, S_0x102b9b470;
+ .timescale -9 -12;
+v0x102ba4870_0 .var "a_in", 31 0;
+v0x102ba70b0_0 .var "b_in", 31 0;
+v0x102ba6330_0 .var "expected_result", 31 0;
+v0x102ba63d0_0 .var/str "name";
+v0x102ba7d30_0 .var "op_in", 3 0;
+TD_alu_tb.check ;
+    %load/vec4 v0x102ba4870_0;
+    %store/vec4 v0xb190300a0_0, 0, 32;
+    %load/vec4 v0x102ba70b0_0;
+    %store/vec4 v0xb19030140_0, 0, 32;
+    %load/vec4 v0x102ba7d30_0;
+    %store/vec4 v0xb19030280_0, 0, 4;
+    %delay 1000, 0;
+    %load/vec4 v0xb190303c0_0;
+    %load/vec4 v0x102ba6330_0;
+    %cmp/e;
+    %jmp/0xz  T_0.0, 6;
+    ; show_stmt_assign_vector: Get l-value for compressed += operand
+    %load/vec4 v0xb19030320_0;
+    %pushi/vec4 1, 0, 32;
+    %add;
+    %cast2;
+    %store/vec4 v0xb19030320_0, 0, 32;
+    %vpi_call/w 4 39 "$display", "PASS: %-10s result=%0d (0x%08h)", v0x102ba63d0_0, v0xb190303c0_0, v0xb190303c0_0 {0 0 0};
+    %jmp T_0.1;
+T_0.0 ;
+    ; show_stmt_assign_vector: Get l-value for compressed += operand
+    %load/vec4 v0xb190301e0_0;
+    %pushi/vec4 1, 0, 32;
+    %add;
+    %cast2;
+    %store/vec4 v0xb190301e0_0, 0, 32;
+    %vpi_call/w 4 42 "$display", "FAIL: %-10s expected=%0d (0x%08h) got=%0d", v0x102ba63d0_0, v0x102ba6330_0, v0x102ba6330_0, v0xb190303c0_0, v0xb190303c0_0 {0 0 0};
+T_0.1 ;
+    %end;
+S_0x102ba6cb0 .scope module, "dut" "alu" 4 16, 5 3 0, S_0x102b9b470;
+ .timescale 0 0;
+    .port_info 0 /INPUT 32 "a";
+    .port_info 1 /INPUT 32 "b";
+    .port_info 2 /INPUT 4 "op";
+    .port_info 3 /OUTPUT 32 "result";
+    .port_info 4 /OUTPUT 1 "zero";
+L_0xb18864010 .functor BUFT 1, C4<00000000000000000000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x102ba7dd0_0 .net/2u *"_ivl_2", 31 0, L_0xb18864010;  1 drivers
+v0x102ba7e70_0 .net "a", 31 0, v0xb190300a0_0;  1 drivers
+v0x102ba8230_0 .net "b", 31 0, v0xb19030140_0;  1 drivers
+v0x102ba82d0_0 .net "op", 3 0, v0xb19030280_0;  1 drivers
+v0x102ba8370_0 .var "result", 31 0;
+v0x102ba8410_0 .net "shamt", 4 0, L_0x102ba84b0;  1 drivers
+v0xb19030000_0 .net "zero", 0 0, L_0xb19030500;  alias, 1 drivers
+E_0xb18c01a00 .event anyedge, v0x102ba82d0_0, v0x102ba7e70_0, v0x102ba8230_0, v0x102ba8410_0;
+L_0x102ba84b0 .part v0xb19030140_0, 0, 5;
+L_0xb19030500 .cmp/eq 32, v0x102ba8370_0, L_0xb18864010;
+    .scope S_0x102ba6cb0;
+T_1 ;
+Ewait_0 .event/or E_0xb18c01a00, E_0x0;
+    %wait Ewait_0;
+    %load/vec4 v0x102ba82d0_0;
+    %dup/vec4;
+    %pushi/vec4 0, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.0, 6;
+    %dup/vec4;
+    %pushi/vec4 1, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.1, 6;
+    %dup/vec4;
+    %pushi/vec4 2, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.2, 6;
+    %dup/vec4;
+    %pushi/vec4 3, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.3, 6;
+    %dup/vec4;
+    %pushi/vec4 4, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.4, 6;
+    %dup/vec4;
+    %pushi/vec4 5, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.5, 6;
+    %dup/vec4;
+    %pushi/vec4 6, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.6, 6;
+    %dup/vec4;
+    %pushi/vec4 7, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.7, 6;
+    %dup/vec4;
+    %pushi/vec4 8, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.8, 6;
+    %dup/vec4;
+    %pushi/vec4 9, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.9, 6;
+    %dup/vec4;
+    %pushi/vec4 10, 0, 4;
+    %cmp/u;
+    %jmp/1 T_1.10, 6;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.0 ;
+    %load/vec4 v0x102ba7e70_0;
+    %load/vec4 v0x102ba8230_0;
+    %add;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.1 ;
+    %load/vec4 v0x102ba7e70_0;
+    %load/vec4 v0x102ba8230_0;
+    %sub;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.2 ;
+    %load/vec4 v0x102ba7e70_0;
+    %load/vec4 v0x102ba8230_0;
+    %xor;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.3 ;
+    %load/vec4 v0x102ba7e70_0;
+    %load/vec4 v0x102ba8230_0;
+    %or;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.4 ;
+    %load/vec4 v0x102ba7e70_0;
+    %load/vec4 v0x102ba8230_0;
+    %and;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.5 ;
+    %load/vec4 v0x102ba7e70_0;
+    %ix/getv 4, v0x102ba8410_0;
+    %shiftl 4;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.6 ;
+    %load/vec4 v0x102ba7e70_0;
+    %ix/getv 4, v0x102ba8410_0;
+    %shiftr 4;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.7 ;
+    %load/vec4 v0x102ba7e70_0;
+    %ix/getv 4, v0x102ba8410_0;
+    %shiftr/s 4;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.8 ;
+    %load/vec4 v0x102ba7e70_0;
+    %load/vec4 v0x102ba8230_0;
+    %cmp/s;
+    %flag_mov 8, 5;
+    %jmp/0 T_1.13, 8;
+    %pushi/vec4 1, 0, 32;
+    %jmp/1 T_1.14, 8;
+T_1.13 ; End of true expr.
+    %pushi/vec4 0, 0, 32;
+    %jmp/0 T_1.14, 8;
+ ; End of false expr.
+    %blend;
+T_1.14;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.9 ;
+    %load/vec4 v0x102ba7e70_0;
+    %load/vec4 v0x102ba8230_0;
+    %cmp/u;
+    %flag_mov 8, 5;
+    %jmp/0 T_1.15, 8;
+    %pushi/vec4 1, 0, 32;
+    %jmp/1 T_1.16, 8;
+T_1.15 ; End of true expr.
+    %pushi/vec4 0, 0, 32;
+    %jmp/0 T_1.16, 8;
+ ; End of false expr.
+    %blend;
+T_1.16;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.10 ;
+    %load/vec4 v0x102ba8230_0;
+    %store/vec4 v0x102ba8370_0, 0, 32;
+    %jmp T_1.12;
+T_1.12 ;
+    %pop/vec4 1;
+    %jmp T_1;
+    .thread T_1, $push;
+    .scope S_0x102b9b470;
+T_2 ;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0xb19030320_0, 0, 32;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0xb190301e0_0, 0, 32;
+    %end;
+    .thread T_2, $init;
+    .scope S_0x102b9b470;
+T_3 ;
+    %vpi_call/w 4 47 "$display", "---- ALU Testbench start ----" {0 0 0};
+    %alloc S_0x102b9b5f0;
+    %pushi/str "ADD";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 10, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 15, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 0, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 25, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SUB";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 20, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 8, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 12, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SUB_neg";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 5, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 10, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 4294967291, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "XOR";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 4278255360, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 252645135, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 2, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 4027576335, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "OR";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 4042322160, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 252645135, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 3, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 4294967295, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "AND";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 4278255360, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 267390960, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 4, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 251662080, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SLL";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 4, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 5, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 16, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SRL";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 4026531840, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 4, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 6, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 251658240, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SRA_pos";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 1073741824, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 4, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 7, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 67108864, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SRA_neg";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 4026531840, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 4, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 7, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 4278190080, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SLL_max";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 31, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 5, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 2147483648, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SLL_upperbits";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 4294967265, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 5, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 2, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SLT_true";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 4294967295, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 8, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SLT_false";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 5, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 8, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SLTU_true";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 4294967295, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 9, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "SLTU_false";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 4294967295, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 1, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 9, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %alloc S_0x102b9b5f0;
+    %pushi/str "PASS_B";
+    %store/str v0x102ba63d0_0;
+    %pushi/vec4 3735928559, 0, 32;
+    %store/vec4 v0x102ba4870_0, 0, 32;
+    %pushi/vec4 305419896, 0, 32;
+    %store/vec4 v0x102ba70b0_0, 0, 32;
+    %pushi/vec4 10, 0, 4;
+    %store/vec4 v0x102ba7d30_0, 0, 4;
+    %pushi/vec4 305419896, 0, 32;
+    %store/vec4 v0x102ba6330_0, 0, 32;
+    %fork TD_alu_tb.check, S_0x102b9b5f0;
+    %join;
+    %free S_0x102b9b5f0;
+    %pushi/vec4 7, 0, 32;
+    %store/vec4 v0xb190300a0_0, 0, 32;
+    %pushi/vec4 7, 0, 32;
+    %store/vec4 v0xb19030140_0, 0, 32;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v0xb19030280_0, 0, 4;
+    %delay 1000, 0;
+    %load/vec4 v0xb19030460_0;
+    %cmpi/e 1, 0, 1;
+    %jmp/0xz  T_3.0, 6;
+    ; show_stmt_assign_vector: Get l-value for compressed += operand
+    %load/vec4 v0xb19030320_0;
+    %pushi/vec4 1, 0, 32;
+    %add;
+    %cast2;
+    %store/vec4 v0xb19030320_0, 0, 32;
+    %vpi_call/w 4 82 "$display", "PASS: zero_flag (equal operands)" {0 0 0};
+    %jmp T_3.1;
+T_3.0 ;
+    ; show_stmt_assign_vector: Get l-value for compressed += operand
+    %load/vec4 v0xb190301e0_0;
+    %pushi/vec4 1, 0, 32;
+    %add;
+    %cast2;
+    %store/vec4 v0xb190301e0_0, 0, 32;
+    %vpi_call/w 4 85 "$display", "FAIL: zero_flag exepcted = 1 got =%0b", v0xb19030460_0 {0 0 0};
+T_3.1 ;
+    %pushi/vec4 7, 0, 32;
+    %store/vec4 v0xb190300a0_0, 0, 32;
+    %pushi/vec4 8, 0, 32;
+    %store/vec4 v0xb19030140_0, 0, 32;
+    %pushi/vec4 1, 0, 4;
+    %store/vec4 v0xb19030280_0, 0, 4;
+    %delay 1000, 0;
+    %load/vec4 v0xb19030460_0;
+    %cmpi/e 0, 0, 1;
+    %jmp/0xz  T_3.2, 6;
+    ; show_stmt_assign_vector: Get l-value for compressed += operand
+    %load/vec4 v0xb19030320_0;
+    %pushi/vec4 1, 0, 32;
+    %add;
+    %cast2;
+    %store/vec4 v0xb19030320_0, 0, 32;
+    %vpi_call/w 4 94 "$display", "PASS: zero_flag (unequal operands)" {0 0 0};
+    %jmp T_3.3;
+T_3.2 ;
+    ; show_stmt_assign_vector: Get l-value for compressed += operand
+    %load/vec4 v0xb190301e0_0;
+    %pushi/vec4 1, 0, 32;
+    %add;
+    %cast2;
+    %store/vec4 v0xb190301e0_0, 0, 32;
+    %vpi_call/w 4 97 "$display", "FAIL: zero_flag expected = 0 got = %0b", v0xb19030460_0 {0 0 0};
+T_3.3 ;
+    %vpi_call/w 4 100 "$display", "---- ALU Testbench done ----" {0 0 0};
+    %vpi_call/w 4 101 "$display", "Passed: %0d \012Failed: %0d", v0xb19030320_0, v0xb190301e0_0 {0 0 0};
+    %load/vec4 v0xb190301e0_0;
+    %cmpi/e 0, 0, 32;
+    %jmp/0xz  T_3.4, 4;
+    %vpi_call/w 4 104 "$display", "ALL TESTS PASSED" {0 0 0};
+    %jmp T_3.5;
+T_3.4 ;
+    %vpi_call/w 4 106 "$display", "SOME TESTS FAILED" {0 0 0};
+T_3.5 ;
+    %vpi_call/w 4 107 "$finish" {0 0 0};
+    %end;
+    .thread T_3;
+# The file index is used to find the file name in the following table.
+:file_names 6;
+    "N/A";
+    "<interactive>";
+    "-";
+    "rtl/types_pkg.sv";
+    "testbenches/alu_tb.sv";
+    "rtl/alu.sv";
