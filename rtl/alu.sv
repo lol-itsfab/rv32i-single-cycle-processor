@@ -9,7 +9,7 @@ module alu (
 );
 
     // Here the lower 5 bits of b are meaningful for instructions like SLL, SRL, and SRA so we only need 5 bits of b
-    // without this icarus will give a warning being sensitive to all bits in b[31:0].
+    // without this there will be a warning about being sensitive to all bits in b[31:0].
     logic[4:0] shamt; 
     assign shamt = b[4:0];
     always_comb begin
