@@ -77,11 +77,16 @@ typedef enum logic [2:0] {
     IMM_J // Selects the immediate for an J-type instruction
 } imm_sel_e;
 
+typedef enum logic [1:0] {
+    WB_ALU, // writeback source comes from ALU result.
+    WB_MEM, // writeback source comes from mem data.
+    WB_PC4 // writeback source comes from PC + 4.
+} wb_sel_e;
+
 typedef struct packed {
     logic reg_write; // writes the ALU or MEM result back to the destination register, rd if 1.
     logic mem_read; // This is a load if 1.
     logic mem_write; // This is a store if 1.
-    logic mem_to_reg; // This is a writeback source for memory data if 1 and for an ALU result if 0.
     logic alu_src_b; // This is the ALU oprerand for B, if 1 its an immediate, if 0 its the second register source, rs2.
     logic branch; // This is a branch instruction if 1.
     logic jump; // This is a jump instruction, JALR or JAL if 1. 
@@ -90,5 +95,6 @@ typedef struct packed {
     logic auipc; // This is specifically the AUIPC instruction if 1.
     alu_op_hint_e alu_op_hint; // This allows alu_control to know how to determine the ALU operation.
     imm_sel_e imm_sel; // This shows which type of immediate format is being worked with (I, S, B, U, J).
+    wb_sel_e wb_sel; // This is a writeback source for memory data, either from ALU, MEM, or PC + 4.
 } ctrl_t;
 endpackage : types_pkg
