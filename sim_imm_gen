@@ -1,0 +1,327 @@
+#! /opt/homebrew/Cellar/icarus-verilog/13.0/bin/vvp
+:ivl_version "13.0 (stable)" "(v13_0)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/system.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/va_math.vpi";
+:vpi_module "/opt/homebrew/Cellar/icarus-verilog/13.0/lib/ivl/v2009.vpi";
+S_0x104ca6a50 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x104ca6bd0 .scope package, "types_pkg" "types_pkg" 3 1;
+ .timescale 0 0;
+P_0xaa9038980 .param/l "F7_NORMAL" 1 3 49, C4<0000000>;
+P_0xaa90389c0 .param/l "F7_SRA_SUB" 1 3 50, C4<0100000>;
+enum0x104cad3c0 .enum4 (7)
+   "OPC_RTYPE" 7'b0110011,
+   "OPC_ITYPE" 7'b0010011,
+   "OPC_LOAD" 7'b0000011,
+   "OPC_STORE" 7'b0100011,
+   "OPC_BRANCH" 7'b1100011,
+   "OPC_JAL" 7'b1101111,
+   "OPC_JALR" 7'b1100111,
+   "OPC_LUI" 7'b0110111,
+   "OPC_AUIPC" 7'b0010111
+ ;
+enum0x104cad9c0 .enum4 (3)
+   "F3_ADD_SUB" 3'b000,
+   "F3_XOR_XORI" 3'b100,
+   "F3_OR_ORI" 3'b110,
+   "F3_AND_ANDI" 3'b111,
+   "F3_SLL_SLLI" 3'b001,
+   "F3_SRL_SRA" 3'b101,
+   "F3_SLT_SLTI" 3'b010,
+   "F3_SLTU_SLTIU" 3'b011
+ ;
+enum0x104cadce0 .enum4 (3)
+   "F3_LB" 3'b000,
+   "F3_LH" 3'b001,
+   "F3_LW" 3'b010,
+   "F3_LBU" 3'b100,
+   "F3_LHU" 3'b101
+ ;
+enum0x104caddc0 .enum4 (3)
+   "F3_SB" 3'b000,
+   "F3_SH" 3'b001,
+   "F3_SW" 3'b010
+ ;
+enum0x104cadea0 .enum4 (3)
+   "F3_BEQ" 3'b000,
+   "F3_BNE" 3'b001,
+   "F3_BLT" 3'b100,
+   "F3_BGE" 3'b101,
+   "F3_BLTU" 3'b110,
+   "F3_BGEU" 3'b111
+ ;
+enum0x104cadf80 .enum4 (4)
+   "ALU_ADD" 4'b0000,
+   "ALU_SUB" 4'b0001,
+   "ALU_XOR" 4'b0010,
+   "ALU_OR" 4'b0011,
+   "ALU_AND" 4'b0100,
+   "ALU_SLL" 4'b0101,
+   "ALU_SRL" 4'b0110,
+   "ALU_SRA" 4'b0111,
+   "ALU_SLT" 4'b1000,
+   "ALU_SLTU" 4'b1001,
+   "ALU_PASS_B" 4'b1010
+ ;
+enum0x104cae0f0 .enum4 (2)
+   "ALUOP_RTYPE_ITYPE" 2'b00,
+   "ALUOP_LOAD_STORE" 2'b01,
+   "ALUOP_BRANCH" 2'b10
+ ;
+enum0x104cae170 .enum4 (3)
+   "IMM_I" 3'b000,
+   "IMM_S" 3'b001,
+   "IMM_B" 3'b010,
+   "IMM_U" 3'b011,
+   "IMM_J" 3'b100
+ ;
+S_0x104cb24f0 .scope module, "imm_gen_tb" "imm_gen_tb" 4 4;
+ .timescale -9 -12;
+v0xaa9058320_0 .var/2s "fail_count", 31 0;
+v0xaa90583c0_0 .net "imm_out", 31 0, v0xaa9058140_0;  1 drivers
+v0xaa9058460_0 .var "imm_sel", 2 0;
+v0xaa9058500_0 .var "instr", 31 0;
+v0xaa90585a0_0 .var/2s "pass_count", 31 0;
+S_0x104cb1910 .scope autotask, "check" "check" 4 21, 4 21 0, S_0x104cb24f0;
+ .timescale -9 -12;
+v0x104ca9a30_0 .var "expected", 31 0;
+v0x104ca9ad0_0 .var "instr_in", 31 0;
+v0xaa9058000_0 .var/str "name";
+v0xaa90580a0_0 .var "sel_in", 2 0;
+TD_imm_gen_tb.check ;
+    %load/vec4 v0x104ca9ad0_0;
+    %store/vec4 v0xaa9058500_0, 0, 32;
+    %load/vec4 v0xaa90580a0_0;
+    %store/vec4 v0xaa9058460_0, 0, 3;
+    %delay 1000, 0;
+    %load/vec4 v0xaa90583c0_0;
+    %load/vec4 v0x104ca9a30_0;
+    %cmp/e;
+    %jmp/0xz  T_0.0, 6;
+    ; show_stmt_assign_vector: Get l-value for compressed += operand
+    %load/vec4 v0xaa90585a0_0;
+    %pushi/vec4 1, 0, 32;
+    %add;
+    %cast2;
+    %store/vec4 v0xaa90585a0_0, 0, 32;
+    %vpi_call/w 4 33 "$display", "PASS: %-15s imm_out=%0d (0x%08h)", v0xaa9058000_0, v0xaa90583c0_0, v0xaa90583c0_0 {0 0 0};
+    %jmp T_0.1;
+T_0.0 ;
+    ; show_stmt_assign_vector: Get l-value for compressed += operand
+    %load/vec4 v0xaa9058320_0;
+    %pushi/vec4 1, 0, 32;
+    %add;
+    %cast2;
+    %store/vec4 v0xaa9058320_0, 0, 32;
+    %vpi_call/w 4 36 "$display", "FAIL: %-15s expected=%0d (0x%08h) got=%0d (0x%08h)", v0xaa9058000_0, v0x104ca9a30_0, v0x104ca9a30_0, v0xaa90583c0_0, v0xaa90583c0_0 {0 0 0};
+T_0.1 ;
+    %end;
+S_0x104cb2990 .scope module, "dut" "imm_gen" 4 15, 5 3 0, S_0x104cb24f0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 32 "instr";
+    .port_info 1 /INPUT 3 "imm_sel";
+    .port_info 2 /OUTPUT 32 "imm_out";
+v0xaa9058140_0 .var "imm_out", 31 0;
+v0xaa90581e0_0 .net "imm_sel", 2 0, v0xaa9058460_0;  1 drivers
+v0xaa9058280_0 .net "instr", 31 0, v0xaa9058500_0;  1 drivers
+E_0xaa9035c40 .event anyedge, v0xaa90581e0_0, v0xaa9058280_0;
+    .scope S_0x104cb2990;
+T_1 ;
+Ewait_0 .event/or E_0xaa9035c40, E_0x0;
+    %wait Ewait_0;
+    %load/vec4 v0xaa90581e0_0;
+    %dup/vec4;
+    %pushi/vec4 0, 0, 3;
+    %cmp/u;
+    %jmp/1 T_1.0, 6;
+    %dup/vec4;
+    %pushi/vec4 1, 0, 3;
+    %cmp/u;
+    %jmp/1 T_1.1, 6;
+    %dup/vec4;
+    %pushi/vec4 2, 0, 3;
+    %cmp/u;
+    %jmp/1 T_1.2, 6;
+    %dup/vec4;
+    %pushi/vec4 3, 0, 3;
+    %cmp/u;
+    %jmp/1 T_1.3, 6;
+    %dup/vec4;
+    %pushi/vec4 4, 0, 3;
+    %cmp/u;
+    %jmp/1 T_1.4, 6;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0xaa9058140_0, 0, 32;
+    %jmp T_1.6;
+T_1.0 ;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 1, 31, 6;
+    %replicate 20;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 12, 20, 6;
+    %concat/vec4; draw_concat_vec4
+    %store/vec4 v0xaa9058140_0, 0, 32;
+    %jmp T_1.6;
+T_1.1 ;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 1, 31, 6;
+    %replicate 20;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 7, 25, 6;
+    %concat/vec4; draw_concat_vec4
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 5, 7, 4;
+    %concat/vec4; draw_concat_vec4
+    %store/vec4 v0xaa9058140_0, 0, 32;
+    %jmp T_1.6;
+T_1.2 ;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 1, 31, 6;
+    %replicate 20;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 1, 7, 4;
+    %concat/vec4; draw_concat_vec4
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 6, 25, 6;
+    %concat/vec4; draw_concat_vec4
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 4, 8, 5;
+    %concat/vec4; draw_concat_vec4
+    %concati/vec4 0, 0, 1;
+    %store/vec4 v0xaa9058140_0, 0, 32;
+    %jmp T_1.6;
+T_1.3 ;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 20, 12, 5;
+    %concati/vec4 0, 0, 12;
+    %store/vec4 v0xaa9058140_0, 0, 32;
+    %jmp T_1.6;
+T_1.4 ;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 1, 31, 6;
+    %replicate 12;
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 8, 12, 5;
+    %concat/vec4; draw_concat_vec4
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 1, 20, 6;
+    %concat/vec4; draw_concat_vec4
+    %load/vec4 v0xaa9058280_0;
+    %parti/s 10, 21, 6;
+    %concat/vec4; draw_concat_vec4
+    %concati/vec4 0, 0, 1;
+    %store/vec4 v0xaa9058140_0, 0, 32;
+    %jmp T_1.6;
+T_1.6 ;
+    %pop/vec4 1;
+    %jmp T_1;
+    .thread T_1, $push;
+    .scope S_0x104cb24f0;
+T_2 ;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0xaa90585a0_0, 0, 32;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0xaa9058320_0, 0, 32;
+    %end;
+    .thread T_2, $init;
+    .scope S_0x104cb24f0;
+T_3 ;
+    %vpi_call/w 4 41 "$display", "---- imm_gen Testbench start ----" {0 0 0};
+    %alloc S_0x104cb1910;
+    %pushi/str "I_type_pos";
+    %store/str v0xaa9058000_0;
+    %pushi/vec4 52494483, 0, 32;
+    %store/vec4 v0x104ca9ad0_0, 0, 32;
+    %pushi/vec4 0, 0, 3;
+    %store/vec4 v0xaa90580a0_0, 0, 3;
+    %pushi/vec4 50, 0, 32;
+    %store/vec4 v0x104ca9a30_0, 0, 32;
+    %fork TD_imm_gen_tb.check, S_0x104cb1910;
+    %join;
+    %free S_0x104cb1910;
+    %alloc S_0x104cb1910;
+    %pushi/str "I_type_neg";
+    %store/str v0xaa9058000_0;
+    %pushi/vec4 4294017171, 0, 32;
+    %store/vec4 v0x104ca9ad0_0, 0, 32;
+    %pushi/vec4 0, 0, 3;
+    %store/vec4 v0xaa90580a0_0, 0, 3;
+    %pushi/vec4 4294967295, 0, 32;
+    %store/vec4 v0x104ca9a30_0, 0, 32;
+    %fork TD_imm_gen_tb.check, S_0x104cb1910;
+    %join;
+    %free S_0x104cb1910;
+    %alloc S_0x104cb1910;
+    %pushi/str "S_type_pos";
+    %store/str v0xaa9058000_0;
+    %pushi/vec4 105980451, 0, 32;
+    %store/vec4 v0x104ca9ad0_0, 0, 32;
+    %pushi/vec4 1, 0, 3;
+    %store/vec4 v0xaa90580a0_0, 0, 3;
+    %pushi/vec4 100, 0, 32;
+    %store/vec4 v0x104ca9a30_0, 0, 32;
+    %fork TD_imm_gen_tb.check, S_0x104cb1910;
+    %join;
+    %free S_0x104cb1910;
+    %alloc S_0x104cb1910;
+    %pushi/str "B_type_BEQ";
+    %store/str v0xaa9058000_0;
+    %pushi/vec4 6456419, 0, 32;
+    %store/vec4 v0x104ca9ad0_0, 0, 32;
+    %pushi/vec4 2, 0, 3;
+    %store/vec4 v0xaa90580a0_0, 0, 3;
+    %pushi/vec4 8, 0, 32;
+    %store/vec4 v0x104ca9a30_0, 0, 32;
+    %fork TD_imm_gen_tb.check, S_0x104cb1910;
+    %join;
+    %free S_0x104cb1910;
+    %alloc S_0x104cb1910;
+    %pushi/str "U_type_lui";
+    %store/str v0xaa9058000_0;
+    %pushi/vec4 4279, 0, 32;
+    %store/vec4 v0x104ca9ad0_0, 0, 32;
+    %pushi/vec4 3, 0, 3;
+    %store/vec4 v0xaa90580a0_0, 0, 3;
+    %pushi/vec4 4096, 0, 32;
+    %store/vec4 v0x104ca9a30_0, 0, 32;
+    %fork TD_imm_gen_tb.check, S_0x104cb1910;
+    %join;
+    %free S_0x104cb1910;
+    %alloc S_0x104cb1910;
+    %pushi/str "J_type_jal";
+    %store/str v0xaa9058000_0;
+    %pushi/vec4 16777455, 0, 32;
+    %store/vec4 v0x104ca9ad0_0, 0, 32;
+    %pushi/vec4 4, 0, 3;
+    %store/vec4 v0xaa90580a0_0, 0, 3;
+    %pushi/vec4 16, 0, 32;
+    %store/vec4 v0x104ca9a30_0, 0, 32;
+    %fork TD_imm_gen_tb.check, S_0x104cb1910;
+    %join;
+    %free S_0x104cb1910;
+    %vpi_call/w 4 58 "$display", "---- imm_gen Testbench done ----" {0 0 0};
+    %vpi_call/w 4 59 "$display", "Passed: %0d   Failed: %0d", v0xaa90585a0_0, v0xaa9058320_0 {0 0 0};
+    %load/vec4 v0xaa9058320_0;
+    %cmpi/e 0, 0, 32;
+    %jmp/0xz  T_3.0, 4;
+    %vpi_call/w 4 61 "$display", "ALL TESTS PASSED" {0 0 0};
+    %jmp T_3.1;
+T_3.0 ;
+    %vpi_call/w 4 63 "$display", "SOME TESTS FAILED" {0 0 0};
+T_3.1 ;
+    %vpi_call/w 4 64 "$finish" {0 0 0};
+    %end;
+    .thread T_3;
+# The file index is used to find the file name in the following table.
+:file_names 6;
+    "N/A";
+    "<interactive>";
+    "-";
+    "rtl/types_pkg.sv";
+    "testbenches/imm_gen_tb.sv";
+    "rtl/imm_gen.sv";
