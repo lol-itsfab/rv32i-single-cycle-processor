@@ -79,6 +79,31 @@ module rv32i_core_singlecycle (
         // 0, x0, 010, x4, 0000011
         // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
         imem[4] = 32'b000000000000_00000_010_00100_0000011;
+
+        // HERE WE WILL ESTABLISH A KNOWN VALUE IN X5 BEFORE THE BRANCH
+        // ADDI x5, x0, 0 // x5 = x0 + 0 = 0
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 0, x0, 000, x5, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[5] = 32'b000000000000_00000_000_00101_0010011;
+
+        // BEQ x0, x0, 8 // (x0 == x0) ? 8 : 4 (always taken)
+        // B-Type imm[12|10:5], rs2, rs1, funct3, imm[4:1|11], opcode
+        // 0, x0, x0, 000, 01000, 1100011
+        // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[6] = 32'b0000000_00000_00000_000_01000_1100011;
+
+        // ADDI x5, x0, 99 // x5 = x0 + 99
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 99, x0, 000, x5, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[7] = 32'b000001100011_00000_000_00101_0010011;
+
+        // ADDI x6, x0, 7 // x6 = x0 + 7
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 7, x0, 000, x6, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[8] = 32'b000000000111_00000_000_00110_0010011;
     end
 
     assign opcode = opcode_e'(instr[6:0]);
