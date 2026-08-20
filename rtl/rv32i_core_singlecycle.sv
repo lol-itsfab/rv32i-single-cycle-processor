@@ -104,6 +104,18 @@ module rv32i_core_singlecycle (
         // 7, x0, 000, x6, 0010011
         // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
         imem[8] = 32'b000000000111_00000_000_00110_0010011;
+
+        // BNE x0, x0, 8 // x0 = x0 + 8 = 8
+        // B-Type imm[12|10:5], rs2, rs1, funct3, imm[4:1|11], opcode
+        // 0000000, 0, 0, 001, 10000, 1100011
+        // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[9] = 32'b0000000_00000_00000_001_01000_1100011;
+
+        // ADDI x7, x0, 42 // x7 = x0 + 42 = 42
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 42, x0, 000, x7, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[10] = 32'b000000101010_00000_000_00111_0010011;
     end
 
     assign opcode = opcode_e'(instr[6:0]);
