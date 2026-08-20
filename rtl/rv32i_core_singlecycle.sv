@@ -64,8 +64,21 @@ module rv32i_core_singlecycle (
 
         // ADD x3, x1, x2 // x3 = x1 + x2 = 15
         // R-Type funct7, rs2, rs1, funct3, rd, opcode
+        // 0000000, x2, x1, 000, x3, 0110011
         // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
         imem[2] = 32'b0000000_00010_00001_000_00011_0110011;
+
+        // SW x3, 0(x0) // x0 = x3 store 15 to x0
+        // S-Type imm[11:5], rs2, rs1, funct3, imm[4:0], opcode
+        // 0000000, x3, x0, 010, 00000, 0100011
+        // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[3] = 32'b0000000_00011_00000_010_00000_0100011;
+
+        // LW x4, 0(x0) // x4 = x0 + 0 store 15 back into x4
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 0, x0, 010, x4, 0000011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[4] = 32'b000000000000_00000_010_00100_0000011;
     end
 
     assign opcode = opcode_e'(instr[6:0]);
@@ -115,6 +128,16 @@ module rv32i_core_singlecycle (
         .op (alu_op),
         .result (alu_result),
         .zero (alu_zero)
+    );
+
+    data_mem data_mem_inst (
+        .clk (clk),
+        .mem_read (ctrl.mem_read),
+        .mem_write (ctrl.mem_write),
+        .addr (alu_result),
+        .write_data (rs2_data),
+        .funct3 (funct3),
+        .read_data (mem_read_data)
     );
 
     always_comb begin
