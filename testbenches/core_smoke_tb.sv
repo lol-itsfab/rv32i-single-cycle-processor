@@ -17,7 +17,7 @@ module core_smoke_tb;
         @(negedge clk);
         rst_n = 1;
 
-        repeat(9) @(posedge clk);
+        repeat(11) @(posedge clk);
         #1;
 
         $display("pc = %0d", dut.pc);
@@ -27,13 +27,15 @@ module core_smoke_tb;
         $display("x4 = %0d (expect 15, loaded back from mem)", dut.regfile_inst.registers[4]);
         $display("x5 = %0d (expect 0, set then skipped by BEQ)", dut.regfile_inst.registers[5]);
         $display("x6 = %0d (expect 7, branch target executed)", dut.regfile_inst.registers[6]);
+        $display("x7 = %0d (expect 42, BNE not taken (fell through))", dut.regfile_inst.registers[7]);
 
         if (dut.regfile_inst.registers[1] == 32'd5 &&
             dut.regfile_inst.registers[2] == 32'd10 &&
             dut.regfile_inst.registers[3] == 32'd15 &&
             dut.regfile_inst.registers[4] == 32'd15 &&
             dut.regfile_inst.registers[5] == 32'd0 &&
-            dut.regfile_inst.registers[6] == 32'd7)
+            dut.regfile_inst.registers[6] == 32'd7 &&
+            dut.regfile_inst.registers[7] == 32'd42)
             $display("SMOKE TEST PASSED");
         else
             $display("SMOKE TEST FAILED");
