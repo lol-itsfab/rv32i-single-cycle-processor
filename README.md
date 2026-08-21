@@ -68,3 +68,7 @@ vvp sim_core
 Instruction encodings verified against the [RISC-V Instruction Set Reference Card](https://www.cs.sfu.ca/~ashriram/Courses/CS295/assets/notebooks/RISCV/RISCV_CARD.pdf).
 
 ## Project structure
+```
+rtl/            SystemVerilog source (modules + shared types package)
+testbenches/    Self-checking testbench per module, plus the full-core smoke test
+```
