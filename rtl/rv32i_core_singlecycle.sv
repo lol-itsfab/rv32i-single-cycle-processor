@@ -107,7 +107,7 @@ module rv32i_core_singlecycle (
 
         // BNE x0, x0, 8 // x0 = x0 + 8 = 8
         // B-Type imm[12|10:5], rs2, rs1, funct3, imm[4:1|11], opcode
-        // 0000000, 0, 0, 001, 10000, 1100011
+        // 0000000, 0, 0, 001, 01000, 1100011
         // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
         imem[9] = 32'b0000000_00000_00000_001_01000_1100011;
 
@@ -116,6 +116,76 @@ module rv32i_core_singlecycle (
         // 42, x0, 000, x7, 0010011
         // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
         imem[10] = 32'b000000101010_00000_000_00111_0010011;
+
+        // BLT x1, x2, 8 // x1 < x2 ? 8 : 4
+        // B-Type imm[12|10:5], rs2, rs1, funct3, imm[4:1|11], opcode
+        // 0000000, 2, 1, 100, 01000, 1100011
+        // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[11] = 32'b0000000_00010_00001_100_01000_1100011;
+
+        // Intention of being skipped, due to previous instruction.
+        // ADDI x8, x0, 111 // x8 = x0 + 111
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 111, 0, 000, 8, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[12] = 32'b000001101111_00000_000_01000_0010011;
+
+        // ADDI x8, x0, 8 // x8 = x0 + 8 = 8
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 8, 0, 000, 8, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[13] = 32'b000000001000_00000_000_01000_0010011;
+
+        // BGE x2, x1, 8 // x2 > x1 ? 8 : 4
+        // B-Type imm[12|10:5], rs2, rs1, funct3, imm[4:1|11], opcode
+        // 0000000, 1, 2, 101, 01000, 1100011
+        // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[14] = 32'b0000000_00001_00010_101_01000_1100011;
+
+        // This instruction should be skipped due to the previous instruction.
+        // ADDI x9, x0, 111 // x9 = x0 + 111
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 111, 0, 000, 9, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[15] = 32'b000001101111_00000_000_01001_0010011;
+
+        // ADDI x9, x0, 9 // x9 = x0 + 9
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 9, 0, 000, 9, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[16] = 32'b000000001001_00000_000_01001_0010011;
+
+        // BLTU x1, x2, 8 // x1 < x2 ? 8 : 4
+        // B-Type imm[12|10:5], rs2, rs1, funct3, imm[4:1|11], opcode
+        // 0000000, x2, x1, 110, 01000, 1100011
+        // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[17] = 32'b0000000_00010_00001_110_01000_1100011;
+
+        // This instruction should be skipped due to the last instruction.
+        // ADDI x10, x0, 111 // x10 = x0 + 111
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 111, 0, 000, 10, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[18] = 32'b000001101111_00000_000_01010_0010011;
+
+        // ADDI x10, x0, 10 // x10 = x0 + 10
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 10, 0, 000, 10, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[19] = 32'b000000001010_00000_000_01010_0010011;
+
+        // BGEU x1, x2, 8 // x1 >= x2 ? 8 : 4
+        // B-type imm[12|10:5], rs2, rs1, funct3, imm[4:1|11], opcode
+        // 0000000, 2, 1, 111, 01000, 1100011
+        // 7 bits, 5 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[20] = 32'b0000000_00010_00001_111_01000_1100011;
+
+        // ADDI x11, x0, 11 // x11 = x0 + 11 = 11
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 11, 0, 000, 11, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[21] = 32'b000000001011_00000_000_01011_0010011;
+
     end
 
     assign opcode = opcode_e'(instr[6:0]);
@@ -183,7 +253,12 @@ module rv32i_core_singlecycle (
             case (funct3_branch_e'(funct3))
                 F3_BEQ: branch_taken = alu_zero;
                 F3_BNE: branch_taken = ~alu_zero;
-                default: branch_taken = 1'b0; // for other branch types not implemented yet
+                F3_BLT: branch_taken = alu_result[0];
+                F3_BGE: branch_taken = ~alu_result[0];
+                F3_BLTU: branch_taken = alu_result[0];
+                F3_BGEU: branch_taken = ~alu_result[0];
+                default: branch_taken = 1'b0; // finally implemented the other branch types.
+                //default: branch_taken = 1'b0; // for other branch types not implemented yet
             endcase
         end
     end

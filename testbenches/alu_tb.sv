@@ -2,7 +2,7 @@
 import types_pkg::*;
 
 module alu_tb;
-    //This is our Device Under Test connections
+    //This is our Design Under Test connections
     logic [31:0]a, b;
     alu_op_e op;
     logic [31:0] result;
