@@ -186,6 +186,59 @@ module rv32i_core_singlecycle (
         // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
         imem[21] = 32'b000000001011_00000_000_01011_0010011;
 
+        // LUI x12, 1 // x12 = 0x00001000 = 4096
+        // U-Type imm[31:12], rd, opcode
+        // 0x00001, 12, 0110111
+        // 20 bits, 5 bits, 7 bits
+        imem[22] = 32'b00000000000000000001_01100_0110111;
+
+        // AUIPC x13, 1 // x13 = 4096 + 92 (current pc) = 4188
+        // U-Type imm[31:12], rd, opcode
+        // 0x00001, 13, 0010111
+        // 20 bits, 5 bits, 7 bits
+        imem[23] = 32'b00000000000000000001_01101_0010111;
+
+        // JAL x14, 8 // x14 = PC + 4 = 100
+        // J-Type imm[20|10:1|11|19:12], rd, opcode
+        // 0x00001, 14, 1101111
+        // 20 bits, 5 bits, 7 bits
+        imem[24] = 32'b00000000100000000000_01110_1101111;
+
+        // Should be skipped due to the last instruction (JAL)
+        // ADDI x15, x0 ,111
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 111, 0, 000, 15, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[25] = 32'b000001101111_00000_000_01111_0010011;
+
+        // JAL should target this instruction.
+        // ADDI x15, x0, 55 // x15 = x0 + 55 = 55
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 55, 0, 000, 15, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[26] = 32'b000000110111_00000_000_01111_0010011;
+
+        // Target address for JALR 
+        // ADDI x16, x0, 124 // x16 = x0 + 124 = 124
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 124, 0, 000, 16, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[27] = 32'b000001111100_00000_000_10000_0010011;
+
+        // JALR x17, x16, 0 // x17 = PC + 4 = 116, PC = x16 + 0
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 0, 16, 000, 17, 1100111
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[28] = 32'b000000000000_10000_000_10001_1100111;
+
+        // skip over imem[29] and imem[30] since jalr skips over these 2.
+
+        // ADDI x18, x0, 18 // x18 = x0 + 18 = 18
+        // I-Type imm[11:0], rs1, funct3, rd, opcode
+        // 18, 0, 000, 18, 0010011
+        // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
+        imem[31] = 32'b000000010010_00000_000_10010_0010011;
+
     end
 
     assign opcode = opcode_e'(instr[6:0]);
