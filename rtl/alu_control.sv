@@ -16,7 +16,17 @@ module alu_control (
         end else begin
             case (alu_op_hint)
                 ALUOP_LOAD_STORE: alu_op = ALU_ADD;
-                ALUOP_BRANCH: alu_op = ALU_SUB;
+                ALUOP_BRANCH: begin
+                    case(funct3_branch_e'(funct3))
+                        F3_BEQ: alu_op = ALU_SUB;
+                        F3_BNE: alu_op = ALU_SUB;
+                        F3_BLT: alu_op = ALU_SLT;
+                        F3_BGE: alu_op = ALU_SLT;
+                        F3_BLTU: alu_op = ALU_SLTU;
+                        F3_BGEU: alu_op = ALU_SLTU;
+                        default: alu_op = ALU_SUB;
+                    endcase
+                end
                 ALUOP_RTYPE_ITYPE: begin
                     case(funct3)
                         F3_ADD_SUB: alu_op = alu_op_e'((funct7 == F7_SRA_SUB) ? ALU_SUB : ALU_ADD); //need an explicit cast otherwise not treated as alu_op_e type.
