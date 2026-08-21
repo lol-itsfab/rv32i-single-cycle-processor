@@ -21,7 +21,7 @@ Classic single-cycle datapath: every instruction fetches, decodes, executes, acc
 | `control_unit.sv` | Decodes opcode into the full `ctrl_t` control signal bundle | 9/9 ✅ |
 | `alu_control.sv` | Combines the control hint, funct3/funct7, and lui/auipc flags into the exact ALU operation | 20/20 ✅ |
 | `data_mem.sv` | Byte-addressable 1KB data memory; byte/halfword/word loads (signed + unsigned) and stores | 9/9 ✅ |
-| `rv32i_core_singlecycle.sv` | Top-level datapath wiring all of the above together, plus PC logic, instruction memory, and branch/jump/writeback muxes | See below |
+| `rv32i_core_singlecycle.sv` | Top-level datapath wiring all of the above together, plus PC logic, instruction memory, and branch/jump/writeback muxes | ✅ (full-core test, see Verification) |
 
 ## Verification
 
