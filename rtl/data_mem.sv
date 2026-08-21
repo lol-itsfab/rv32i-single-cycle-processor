@@ -44,6 +44,4 @@ module data_mem (
             read_data = 32'd0;
         end
     end
-
-
 endmodule
