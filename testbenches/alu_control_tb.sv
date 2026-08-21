@@ -56,7 +56,13 @@ module alu_control_tb;
 
         // load / store / branch hits
         check("load_store", ALUOP_LOAD_STORE, 3'b000, 7'b0000000, 1'b0, 1'b0, ALU_ADD);
-        check("branch", ALUOP_BRANCH, 3'b000, 7'b0000000, 1'b0, 1'b0, ALU_SUB);
+        check("branch", ALUOP_BRANCH, 3'b000, 7'b0000000, 1'b0, 1'b0, ALU_SUB); // generic branch case
+        check("beq", ALUOP_BRANCH, F3_BEQ, 7'b0, 1'b0, 1'b0, ALU_SUB);
+        check("bne", ALUOP_BRANCH, F3_BNE, 7'b0, 1'b0, 1'b0, ALU_SUB);
+        check("blt", ALUOP_BRANCH, F3_BLT, 7'b0, 1'b0, 1'b0, ALU_SLT);
+        check("bge", ALUOP_BRANCH, F3_BGE, 7'b0, 1'b0, 1'b0, ALU_SLT);
+        check("bltu", ALUOP_BRANCH, F3_BLTU, 7'b0, 1'b0, 1'b0, ALU_SLTU);
+        check("bgeu", ALUOP_BRANCH, F3_BGEU, 7'b0, 1'b0, 1'b0, ALU_SLTU);
 
         //R-type and I-type
         check("add", ALUOP_RTYPE_ITYPE, F3_ADD_SUB, F7_NORMAL, 1'b0, 1'b0, ALU_ADD);
