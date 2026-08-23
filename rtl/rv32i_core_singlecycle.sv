@@ -2,7 +2,9 @@ import types_pkg::*;
 
 module rv32i_core_singlecycle (
     input logic clk, // clock
-    input logic rst_n // active low reset
+    input logic rst_n, // active low reset
+    input logic [4:0] dbg_addr,
+    output logic [31:0] dbg_data
 );
 
     // Fetch Stage
@@ -239,7 +241,7 @@ module rv32i_core_singlecycle (
         // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
         imem[31] = 32'b000000010010_00000_000_10010_0010011;
 
-        // JAL x0, 0 // x0 = PC + 4
+        // JAL x0, 0 // PC = PC + 0 = 128 // x0 = PC + 4
         // J-Type imm[20|10:1|11|19:12], rd, opcode
         // 0, 0, 1101111
         // 20 bits, 5 bits, 7 bits
@@ -267,7 +269,9 @@ module rv32i_core_singlecycle (
         .rd_addr (rd_addr),
         .rd_data (writeback_data),
         .rs1_data (rs1_data),
-        .rs2_data (rs2_data)
+        .rs2_data (rs2_data),
+        .dbg_addr (dbg_addr),
+        .dbg_data (dbg_data)
     );
 
     imm_gen imm_gen_inst (
