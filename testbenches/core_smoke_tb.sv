@@ -4,14 +4,19 @@ import types_pkg::*;
 module core_smoke_tb;
     logic clk = 0;
     logic rst_n;
+    logic [4:0] dbg_addr;
+    logic [31:0] dbg_data;
     always #5 clk = ~clk;
 
     rv32i_core_singlecycle dut (
         .clk (clk),
-        .rst_n (rst_n)
+        .rst_n (rst_n),
+        .dbg_addr (dbg_addr),
+        .dbg_data (dbg_data)
     );
 
     initial begin
+        dbg_addr = 5'd0;
         rst_n = 0;
         @(posedge clk);
         @(negedge clk);
@@ -41,6 +46,11 @@ module core_smoke_tb;
         $display("x17 = %0d (expect 116, JALR return address)", dut.regfile_inst.registers[17]);
         $display("x18 = %0d (expect 18, JALR target)", dut.regfile_inst.registers[18]);
 
+        // new debug port
+        dbg_addr = 5'd18;
+        #1;
+        $display("dbg_data(x18) = %0d (expect 18, via debug port)", dbg_data);
+
         if (dut.regfile_inst.registers[1] == 32'd5 &&
             dut.regfile_inst.registers[2] == 32'd10 &&
             dut.regfile_inst.registers[3] == 32'd15 &&
@@ -58,7 +68,8 @@ module core_smoke_tb;
             dut.regfile_inst.registers[15] == 32'd55 &&
             dut.regfile_inst.registers[16] == 32'd124 &&
             dut.regfile_inst.registers[17] == 32'd116 &&
-            dut.regfile_inst.registers[18] == 32'd18)
+            dut.regfile_inst.registers[18] == 32'd18 &&
+            dbg_data == 32'd18)
             $display("SMOKE TEST PASSED");
         else
             $display("SMOKE TEST FAILED");
