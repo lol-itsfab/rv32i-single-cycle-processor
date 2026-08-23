@@ -78,7 +78,7 @@ vvp sim_core
 - LED display truncates register values above 1023 (10 LEDs = 10 bits) — e.g. `x12=4096` displays only its lower 10 bits on hardware, which happen to all be zero in that case.
 ## Reference
  
-Instruction encodings verified against the [RISC-V Instruction Set Reference Card](https://www.cs.sfu.ca/~ashriram/Courses/CS295/assets/notebooks/RISCV/RISCV_CARD.pdf). DE10-Standard pin assignments sourced from the Terasic DE10-Standard User Manual.
+Instruction encodings verified against the [RISC-V Instruction Set Reference Card](https://www.cs.sfu.ca/~ashriram/Courses/CS295/assets/notebooks/RISCV/RISCV_CARD.pdf). DE10-Standard pin assignments (`CLOCK_50`, `KEY[0]`, `SW[4:0]`, `LEDR[9:0]`) sourced from and verified against the [Terasic DE10-Standard User Manual](https://www.marutsu.co.jp/contents/shop/marutsu/datasheet/terasic_DE10-Standard.pdf) (Tables 3-5 through 3-8).
  
 ## Project structure
 ```
