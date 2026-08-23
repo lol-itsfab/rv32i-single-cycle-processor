@@ -40,7 +40,9 @@ Register values after execution are checked directly against hand-calculated exp
 Individual ALU operations beyond `ADD` (e.g., `SUB`, `XOR`, shifts, `SLT`/`SLTU`) are verified in isolation via `alu_tb.sv` and `alu_control_tb.sv`, rather than individually run as instructions through the full core.
  
 ## Hardware verification
- 
+
+[Demo video](https://youtube.com/shorts/pp-8MDj1dyg) — switches select a register, LEDs display its value in binary, confirmed against values predicted in simulation.
+
 The design has been synthesized with Quartus Prime and programmed onto a Terasic DE10-Standard board. `de10_top.sv` wraps the core with:
 - `CLOCK_50` → `clk`
 - `KEY[0]` (active-low pushbutton) → `rst_n`
