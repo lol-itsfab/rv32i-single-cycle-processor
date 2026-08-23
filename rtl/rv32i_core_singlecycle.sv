@@ -239,6 +239,12 @@ module rv32i_core_singlecycle (
         // 12 bits, 5 bits, 3 bits, 5 bits, 7 bits
         imem[31] = 32'b000000010010_00000_000_10010_0010011;
 
+        // JAL x0, 0 // x0 = PC + 4
+        // J-Type imm[20|10:1|11|19:12], rd, opcode
+        // 0, 0, 1101111
+        // 20 bits, 5 bits, 7 bits
+        imem[32] = 32'b00000000000000000000_00000_1101111;
+
     end
 
     assign opcode = opcode_e'(instr[6:0]);

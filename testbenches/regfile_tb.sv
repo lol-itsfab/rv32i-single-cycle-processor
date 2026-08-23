@@ -11,6 +11,8 @@ module regfile_tb;
     logic [31:0] rd_data;
     logic [31:0] rs1_data;
     logic [31:0] rs2_data;
+    logic [4:0] dbg_addr;
+    logic [31:0] dbg_data;
 
     // This is our pass / fail tracking.
     int pass_count = 0;
@@ -28,7 +30,9 @@ module regfile_tb;
         .rd_addr (rd_addr),
         .rd_data (rd_data),
         .rs1_data (rs1_data),
-        .rs2_data (rs2_data)
+        .rs2_data (rs2_data),
+        .dbg_addr (dbg_addr),
+        .dbg_data (dbg_data)
     );
 
     task automatic check_write_read (
@@ -62,6 +66,21 @@ module regfile_tb;
         end
     endtask
 
+    task automatic check_dbg_read (
+        input string name,
+        input logic [4:0] dbg_addr_in,
+        input logic [31:0] expected
+    );
+        dbg_addr = dbg_addr_in;
+        #1;
+        if (dbg_data === expected) begin
+            pass_count++;
+            $display("PASS: %-20s dbg_data=%0d", name, dbg_data);
+        end else begin
+            fail_count++;
+            $display("FAIL: %-20s expected=%0d got=%0d", name, expected, dbg_data);
+        end
+    endtask
     initial begin
         $display("----Regfile Testbench start----");
         check_write_read("basic_write_read", 1, 5'd5, 32'd123, 5'd5, 5'd5, 32'd123, 32'd123);
@@ -70,6 +89,11 @@ module regfile_tb;
         check_write_read("write_disabled_setup", 1, 5'd8, 32'd200, 5'd8, 5'd8, 32'd200, 32'd200);
         check_write_read("write_disabled", 0, 5'd8, 32'd555, 5'd8, 5'd8, 32'd200, 32'd200);
         check_write_read("independent_reads", 1, 5'd5, 32'd123, 5'd5, 5'd10, 32'd123, 32'd77);
+
+        // debug port tests
+        check_dbg_read("dbg_x5", 5'd5, 32'd123);
+        check_dbg_read("dbg_x10", 5'd10, 32'd77);
+        check_dbg_read("dbg_x0_always_zero", 5'd0, 32'd0);
         $display("----Regfile Testbench done----");
         $display("Passed: %0d   Failed:%0d", pass_count, fail_count);
         if (fail_count == 0)
