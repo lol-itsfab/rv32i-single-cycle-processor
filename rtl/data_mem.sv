@@ -10,7 +10,8 @@ module data_mem (
     output logic [31:0] read_data
 );
 
-    logic [7:0] dmem [0:1023]; // 1024 bytes ~= 1 Kb of data mem.
+    //logic [7:0] dmem [0:1023]; // 1024 bytes ~= 1 Kb of data mem.
+    logic [7:0] dmem [0:15]; // updated to reduce the strain on compilation.
     always_ff @(posedge clk) begin
         if (mem_write) begin
             case (funct3)
